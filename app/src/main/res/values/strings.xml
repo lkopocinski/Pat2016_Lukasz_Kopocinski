@@ -7,8 +7,11 @@
     <!-- LoginFragment -->
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
-    <string name="btn_login">Login</string>
-    <string name="err_msg_email">Enter valid email address</string>
-    <string name="err_msg_password">Enter the password</string>
+
+    <string name="button_login">Login</string>
+
+    <string name="error_message_empty_field">Field cannot be empty</string>
+    <string name="error_message_invalid_email">Enter valid email address</string>
+    <string name="error_message_password_incorrect_form">Password should have at least 8 signs</string>
 
 </resources>

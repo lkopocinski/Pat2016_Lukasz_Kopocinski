@@ -11,6 +11,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
+import pl.kopocinski.lukasz.lukaszkopocinski.fragments.LoginFragment;
 import pl.kopocinski.lukasz.lukaszkopocinski.fragments.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.container,
-                    MainFragment.newInstance()).commit();
+                    LoginFragment.newInstance()).commit();
         }
     }
 
