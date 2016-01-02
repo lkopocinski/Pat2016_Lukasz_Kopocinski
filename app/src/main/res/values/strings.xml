@@ -2,7 +2,7 @@
     <string name="app_name">lukasz.kopocinski</string>
     <string name="action_settings">Settings</string>
 
-    <string name="main_fragment_text">Application nr 1</string>
+    <string name="main_fragment_text">Application nr 2</string>
 
     <!-- LoginFragment -->
     <string name="hint_email">Email</string>
@@ -12,6 +12,8 @@
 
     <string name="error_message_empty_field">Field cannot be empty</string>
     <string name="error_message_invalid_email">Enter valid email address</string>
-    <string name="error_message_password_incorrect_form">Password should have at least 8 signs</string>
+    <string name="error_message_password_incorrect_form">Password should have at least 8 signs, one </string>
 
+    <!-- SharedPreferences -->
+    <string name="is_user_logged">isUserLogged</string>
 </resources>

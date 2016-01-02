@@ -17,6 +17,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
+import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
+import pl.kopocinski.lukasz.lukaszkopocinski.Utils;
 
 
 public class LoginFragment extends Fragment {
@@ -58,32 +60,36 @@ public class LoginFragment extends Fragment {
     }
 
     @OnClick(R.id.button_login)
-    public void onButtonLoginClicked(){
-        validateData();
+    public void onButtonLoginClicked() {
+        if (validateData()) {
+            saveUserLoggedIn();
+            loadMainFragment();
+        }
     }
 
-    private boolean validateData(){
+    private boolean validateData() {
         if (!validateEmail()) {
             return false;
         }
 
-        if(!validatePassword()){
+        if (!validatePassword()) {
             return false;
         }
 
         return true;
     }
 
-    private boolean validateEmail(){
+    private boolean validateEmail() {
         String email = inputEmail.getText().toString().trim();
 
-        if(email.isEmpty()){
+        if (email.isEmpty()) {
             inputLayoutEmail.setError(getString(R.string.error_message_empty_field));
             return false;
         }
 
-        if(!isValidEmail(email)){
+        if (!isValidEmail(email)) {
             inputLayoutEmail.setError(getString(R.string.error_message_invalid_email));
+            return false;
         } else {
             inputLayoutEmail.setErrorEnabled(false);
         }
@@ -91,16 +97,17 @@ public class LoginFragment extends Fragment {
         return true;
     }
 
-    private boolean validatePassword(){
+    private boolean validatePassword() {
         String password = inputPassword.getText().toString();
 
-        if(password.isEmpty()){
+        if (password.isEmpty()) {
             inputLayoutPassword.setError(getString(R.string.error_message_empty_field));
             return false;
         }
 
-        if(!isValidPassword(password)){
+        if (!isValidPassword(password)) {
             inputLayoutPassword.setError(getString(R.string.error_message_password_incorrect_form));
+            return false;
         } else {
             inputLayoutPassword.setErrorEnabled(false);
         }
@@ -108,20 +115,20 @@ public class LoginFragment extends Fragment {
         return true;
     }
 
-    private boolean isValidEmail(String email){
+    private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private boolean isValidPassword(String password){
+    private boolean isValidPassword(String password) {
         final int MIN_REQUIRED_LENGHT = 8;
 
-        if(password.length() < MIN_REQUIRED_LENGHT){
+        if (password.length() < MIN_REQUIRED_LENGHT) {
             return false;
         }
-        if(password.equals(password.toLowerCase())){        // sprawdza duże litery
+        if (password.equals(password.toLowerCase())) {        // sprawdza duże litery
             return false;
         }
-        if(password.equals(password.toUpperCase())){        // sprawdza małe litery
+        if (password.equals(password.toUpperCase())) {        // sprawdza małe litery
             return false;
         }
 
@@ -131,5 +138,14 @@ public class LoginFragment extends Fragment {
         Matcher matcher = pattern.matcher(password);
 
         return matcher.find();
+    }
+
+    private void saveUserLoggedIn() {
+       UserPreferences.getInstance(getContext()).saveLoginStatus(UserPreferences.USER_LOGGED_IN);
+    }
+
+    private void loadMainFragment() {
+        Utils.fragmentTransactionSetup(MainFragment.newInstance(), getFragmentManager(),
+                MainFragment.class.getName());
     }
 }
