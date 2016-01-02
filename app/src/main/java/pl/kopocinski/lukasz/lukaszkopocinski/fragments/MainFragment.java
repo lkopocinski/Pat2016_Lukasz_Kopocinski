@@ -5,13 +5,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
+import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
+import pl.kopocinski.lukasz.lukaszkopocinski.Utils;
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
 public class MainFragment extends Fragment {
+
+    @Bind(R.id.button_logout)
+    Button buttonLogout;
+
 
     public MainFragment() {
     }
@@ -25,7 +33,23 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View view =  inflater.inflate(R.layout.fragment_main, container, false);
+        ButterKnife.bind(this, view);
+
+        return view;
     }
 
+    @OnClick(R.id.button_logout)
+    public void onButtonLogoutClicked(){
+        saveUserLoggedOut();
+        loadLoginFragment();
+    }
+
+    private void saveUserLoggedOut(){
+        UserPreferences.getInstance(getContext()).saveLoginStatus(UserPreferences.USER_LOGGED_OUT);
+    }
+
+    private void loadLoginFragment(){
+        Utils.fragmentTransactionSetup(LoginFragment.newInstance(),getFragmentManager(),LoginFragment.class.getName());
+    }
 }

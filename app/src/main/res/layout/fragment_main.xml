@@ -14,4 +14,13 @@
         android:layout_centerHorizontal="true"
         android:text="@string/main_fragment_text" />
 
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/button_logout"
+        android:textColor="@android:color/white" />
+
 </RelativeLayout>

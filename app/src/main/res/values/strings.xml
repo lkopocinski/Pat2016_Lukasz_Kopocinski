@@ -12,7 +12,10 @@
 
     <string name="error_message_empty_field">Field cannot be empty</string>
     <string name="error_message_invalid_email">Enter valid email address</string>
-    <string name="error_message_password_incorrect_form">Password should have at least 8 signs, one </string>
+    <string name="error_message_password_incorrect_form">Password should have at least 8 signs, one capital and one small letter</string>
+
+    <!-- MainFragment -->
+    <string name="button_logout">Logout</string>
 
     <!-- SharedPreferences -->
     <string name="is_user_logged">isUserLogged</string>

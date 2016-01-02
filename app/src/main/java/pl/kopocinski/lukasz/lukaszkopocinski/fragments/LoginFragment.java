@@ -120,9 +120,9 @@ public class LoginFragment extends Fragment {
     }
 
     private boolean isValidPassword(String password) {
-        final int MIN_REQUIRED_LENGHT = 8;
+        final int MIN_REQUIRED_LENGTH = 8;
 
-        if (password.length() < MIN_REQUIRED_LENGHT) {
+        if (password.length() < MIN_REQUIRED_LENGTH) {
             return false;
         }
         if (password.equals(password.toLowerCase())) {        // sprawdza duże litery
