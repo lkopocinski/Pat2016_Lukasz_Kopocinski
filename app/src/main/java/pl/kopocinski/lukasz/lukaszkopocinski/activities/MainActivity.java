@@ -21,9 +21,6 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +52,4 @@ public class MainActivity extends AppCompatActivity {
                 LoginFragment.newInstance()).commit();
     }
 
-    @OnClick(R.id.fab)
-    public void onFabClicked(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-    }
 }

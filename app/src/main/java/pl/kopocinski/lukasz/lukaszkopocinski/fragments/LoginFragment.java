@@ -141,7 +141,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void saveUserLoggedIn() {
-       UserPreferences.getInstance(getContext()).saveLoginStatus(UserPreferences.USER_LOGGED_IN);
+        UserPreferences.getInstance(getContext()).saveLoginStatus(UserPreferences.USER_LOGGED_IN);
     }
 
     private void loadMainFragment() {
