@@ -13,14 +13,13 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
-import pl.kopocinski.lukasz.lukaszkopocinski.gson.JsonArrayServer;
-import pl.kopocinski.lukasz.lukaszkopocinski.recycler.models.MainListRow;
+import pl.kopocinski.lukasz.lukaszkopocinski.json.models.JsonRowData;
 
 /**
  * Created by Łukasz on 2016-01-03.
  */
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
-    private List<JsonArrayServer> rowsList;
+    private List<JsonRowData> rowsList;
     private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -38,7 +37,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ListAdapter(List<JsonArrayServer> rowsList, Context context) {
+    public ListAdapter(List<JsonRowData> rowsList, Context context) {
         this.rowsList = rowsList;
         this.context = context;
     }
