@@ -9,12 +9,4 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_logout"
-        android:title="@string/button_logout"
-        android:orderInCategory="200"
-        android:icon="@drawable/ic_action_name"
-        app:showAsAction="ifRoom"
-        />
-
 </menu>

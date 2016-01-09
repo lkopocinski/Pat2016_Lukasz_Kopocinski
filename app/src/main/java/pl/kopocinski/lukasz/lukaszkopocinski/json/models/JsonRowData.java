@@ -7,7 +7,6 @@ package pl.kopocinski.lukasz.lukaszkopocinski.json.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
 public class JsonRowData {
 
     @SerializedName("title")

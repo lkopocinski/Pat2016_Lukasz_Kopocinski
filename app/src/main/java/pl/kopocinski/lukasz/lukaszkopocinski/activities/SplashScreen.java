@@ -23,7 +23,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (isUserLoggedIn()) {
-            loadMainActivity(USER_LOGGED_IN);
+            startMainActivity(USER_LOGGED_IN);
         } else {
             setContentView(R.layout.splash_screen);
 
@@ -33,7 +33,7 @@ public class SplashScreen extends AppCompatActivity {
                     try {
                         sleep(SPLASH_DURATION_TIME);
 
-                        loadMainActivity(USER_LOGGED_OUT);
+                        startMainActivity(USER_LOGGED_OUT);
                     } catch (InterruptedException e) {
                         //return;
                     }
@@ -62,7 +62,7 @@ public class SplashScreen extends AppCompatActivity {
         return UserPreferences.getInstance(getApplicationContext()).isUserLoggedIn();
     }
 
-    private void loadMainActivity(boolean isLoggedIn) {
+    private void startMainActivity(boolean isLoggedIn) {
         Intent intent = new Intent(SplashScreen.this, MainActivity.class);
         intent.putExtra(IS_USER_LOGGED_IN_KEY, isLoggedIn);
         startActivity(intent);

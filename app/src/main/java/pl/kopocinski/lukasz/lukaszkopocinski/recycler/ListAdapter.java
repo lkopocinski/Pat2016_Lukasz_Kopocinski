@@ -58,8 +58,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-       // holder.imageView.setImageResource(rowsList.get(position).getUrl());
-        Glide.with(context).load(rowsList.get(position).getUrl()).into(holder.imageView);
+
+
+        setImage(rowsList.get(position).getUrl(),holder.imageView);
         holder.titleText.setText(rowsList.get(position).getTitle());
         holder.descriptionText.setText(rowsList.get(position).getDesc());
     }
@@ -73,5 +74,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    private void setImage(String url, ImageView imageView){
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .into(imageView);
     }
 }
