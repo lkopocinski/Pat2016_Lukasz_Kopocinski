@@ -3,13 +3,12 @@ package pl.kopocinski.lukasz.lukaszkopocinski.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
 
-/**
- * Created by Łukasz on 2015-12-28.
- */
 public class SplashScreen extends AppCompatActivity {
+    private static final String CLASS_NAME = SplashScreen.class.getSimpleName();
     public static final int SPLASH_DURATION_TIME = 5000;
 
     private Thread timerThread;
@@ -25,15 +24,13 @@ public class SplashScreen extends AppCompatActivity {
                 try {
                     sleep(SPLASH_DURATION_TIME);
 
-                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                    startActivity(intent);
+                    startMainActivity();
                 } catch (InterruptedException e) {
-                    return;
+                    Log.i(CLASS_NAME, "Thread interrupted");
                 }
             }
         };
         timerThread.start();
-
     }
 
     @Override
@@ -45,10 +42,14 @@ public class SplashScreen extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onPause() {
         super.onPause();
         finish();
+    }
+
+    public void startMainActivity(){
+        Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+        startActivity(intent);
     }
 }
