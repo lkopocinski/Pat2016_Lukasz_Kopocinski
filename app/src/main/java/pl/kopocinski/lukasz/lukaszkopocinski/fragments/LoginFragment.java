@@ -1,14 +1,19 @@
 package pl.kopocinski.lukasz.lukaszkopocinski.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +21,7 @@ import java.util.regex.Pattern;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
 import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
 import pl.kopocinski.lukasz.lukaszkopocinski.Utils;
@@ -38,6 +44,9 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.button_login)
     Button buttonLogin;
 
+    @Bind(R.id.password_visible)
+    ImageView passwordVisible;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -59,10 +68,12 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+
     @OnClick(R.id.button_login)
     public void onButtonLoginClicked() {
         if (validateData()) {
             saveUserLoggedIn();
+            hideKeyboard(getView());
             loadMainFragment();
         }
     }
@@ -141,11 +152,31 @@ public class LoginFragment extends Fragment {
     }
 
     private void saveUserLoggedIn() {
-       UserPreferences.getInstance(getContext()).saveLoginStatus(UserPreferences.USER_LOGGED_IN);
+        UserPreferences.getInstance(getContext()).saveLoginStatus(UserPreferences.USER_LOGGED_IN);
     }
 
     private void loadMainFragment() {
         Utils.fragmentTransactionSetup(MainFragment.newInstance(), getFragmentManager(),
                 MainFragment.class.getName());
+    }
+
+    public void hideKeyboard(View view){
+        InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @OnTouch(R.id.password_visible)
+    public boolean onEyeImageClicked(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                inputPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                break;
+            case MotionEvent.ACTION_UP:
+                inputPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                inputPassword.setSelection(inputPassword.getText().length());
+                break;
+        }
+
+        return true;
     }
 }

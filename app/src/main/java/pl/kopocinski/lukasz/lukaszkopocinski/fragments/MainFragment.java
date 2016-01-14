@@ -20,7 +20,6 @@ public class MainFragment extends Fragment {
     @Bind(R.id.button_logout)
     Button buttonLogout;
 
-
     public MainFragment() {
     }
 
@@ -33,23 +32,23 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
 
         return view;
     }
 
     @OnClick(R.id.button_logout)
-    public void onButtonLogoutClicked(){
+    public void onButtonLogoutClicked() {
         saveUserLoggedOut();
         loadLoginFragment();
     }
 
-    private void saveUserLoggedOut(){
+    private void saveUserLoggedOut() {
         UserPreferences.getInstance(getContext()).saveLoginStatus(UserPreferences.USER_LOGGED_OUT);
     }
 
-    private void loadLoginFragment(){
-        Utils.fragmentTransactionSetup(LoginFragment.newInstance(),getFragmentManager(),LoginFragment.class.getName());
+    private void loadLoginFragment() {
+        Utils.fragmentTransactionSetup(LoginFragment.newInstance(), getFragmentManager(), LoginFragment.class.getName());
     }
 }

@@ -15,7 +15,7 @@ public class UserPreferences {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor preferencesEditor;
 
-    public static UserPreferences getInstance(Context context){
+    public static UserPreferences getInstance(Context context) {
         UserPreferences userPreferences = new UserPreferences(context);
         userPreferences.sharedPreferences = userPreferences.getSharedPreferencesPrivateMode();
         userPreferences.preferencesEditor = userPreferences.getEditor();
@@ -31,7 +31,7 @@ public class UserPreferences {
         return context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
     }
 
-    public SharedPreferences.Editor  getEditor(){
+    public SharedPreferences.Editor getEditor() {
         return sharedPreferences.edit();
     }
 

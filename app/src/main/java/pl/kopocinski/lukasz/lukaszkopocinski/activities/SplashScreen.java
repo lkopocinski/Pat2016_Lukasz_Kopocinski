@@ -3,6 +3,7 @@ package pl.kopocinski.lukasz.lukaszkopocinski.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
 import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
@@ -11,7 +12,9 @@ import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
  * Created by Łukasz on 2015-12-28.
  */
 public class SplashScreen extends AppCompatActivity {
+    private static final String CLASS_NAME = SplashScreen.class.getSimpleName();
     public static final int SPLASH_DURATION_TIME = 5000;
+
     private static final String IS_USER_LOGGED_IN_KEY = "isUserLogged";
     public static final boolean USER_LOGGED_IN = true;
     public static final boolean USER_LOGGED_OUT = false;
@@ -23,7 +26,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (isUserLoggedIn()) {
-            loadMainActivity(USER_LOGGED_IN);
+            startMainActivity(USER_LOGGED_IN);
         } else {
             setContentView(R.layout.splash_screen);
 
@@ -33,9 +36,9 @@ public class SplashScreen extends AppCompatActivity {
                     try {
                         sleep(SPLASH_DURATION_TIME);
 
-                        loadMainActivity(USER_LOGGED_OUT);
+                        startMainActivity(USER_LOGGED_OUT);
                     } catch (InterruptedException e) {
-                        //return;
+                        Log.i(CLASS_NAME, "Thread interrupted");
                     }
                 }
             };
@@ -62,7 +65,7 @@ public class SplashScreen extends AppCompatActivity {
         return UserPreferences.getInstance(getApplicationContext()).isUserLoggedIn();
     }
 
-    private void loadMainActivity(boolean isLoggedIn) {
+    private void startMainActivity(boolean isLoggedIn) {
         Intent intent = new Intent(SplashScreen.this, MainActivity.class);
         intent.putExtra(IS_USER_LOGGED_IN_KEY, isLoggedIn);
         startActivity(intent);

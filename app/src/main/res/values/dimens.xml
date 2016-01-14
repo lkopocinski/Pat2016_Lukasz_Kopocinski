@@ -7,8 +7,10 @@
     <!-- Dimensions splash screen -->
     <dimen name="splash_picture_margin">16dp</dimen>
 
-    !-- Dimensions login fragment -->
+    <!-- Dimensions login fragment -->
     <dimen name="input_text_margin">20dp</dimen>
+    <dimen name="input_text_margin_top">40dp</dimen>
+    <dimen name="eye_margin_left">4dp</dimen>
 
 
 </resources>

@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="@dimen/input_text_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/input_text_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
 
     tools:context="pl.kopocinski.lukasz.lukaszkopocinski.fragments.LoginFragment">
 
@@ -32,17 +32,28 @@
             android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:hint="@string/hint_password"
             android:inputType="textPassword" />
 
+        <ImageView
+            android:layout_marginLeft="@dimen/eye_margin_left"
+            android:id="@+id/password_visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/input_password"
+            android:clickable="true"
+            android:src="@drawable/ic_visibility" />
+
     </android.support.design.widget.TextInputLayout>
 
-    <Button android:id="@+id/button_login"
+    <Button
+        android:id="@+id/button_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_login"
+        android:layout_marginTop="@dimen/input_text_margin_top"
         android:background="@color/colorPrimary"
-        android:layout_marginTop="40dp"
-        android:textColor="@android:color/white"/>
+        android:text="@string/button_login"
+        android:textColor="@color/buttonTextColor" />
 
 </LinearLayout>
