@@ -8,9 +8,6 @@ import android.util.Log;
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
 import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
 
-/**
- * Created by Łukasz on 2015-12-28.
- */
 public class SplashScreen extends AppCompatActivity {
     private static final String CLASS_NAME = SplashScreen.class.getSimpleName();
     public static final int SPLASH_DURATION_TIME = 5000;

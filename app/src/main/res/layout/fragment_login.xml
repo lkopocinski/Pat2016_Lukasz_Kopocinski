@@ -32,16 +32,15 @@
             android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
             android:hint="@string/hint_password"
             android:inputType="textPassword" />
 
         <ImageView
-            android:layout_marginLeft="@dimen/eye_margin_left"
             android:id="@+id/password_visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/input_password"
+            android:layout_marginLeft="@dimen/eye_margin_left"
             android:clickable="true"
             android:src="@drawable/ic_visibility" />
 

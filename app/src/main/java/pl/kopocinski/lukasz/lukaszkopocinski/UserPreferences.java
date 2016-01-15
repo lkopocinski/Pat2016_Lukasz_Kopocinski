@@ -3,9 +3,6 @@ package pl.kopocinski.lukasz.lukaszkopocinski;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * Created by Łukasz on 2016-01-02.
- */
 public class UserPreferences {
     private static final String PREFERENCE_FILE_KEY = "pl.kopocinski.lukasz.lukaszkopocinski.USER_PREFERENCES";
     public static final boolean USER_LOGGED_IN = true;
