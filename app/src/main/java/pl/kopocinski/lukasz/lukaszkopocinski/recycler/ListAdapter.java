@@ -25,14 +25,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView titleText;
-        public TextView descriptionText;
+        //public TextView descriptionText;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            imageView = (ImageView) itemView.findViewById(R.id.list_row_image);
+            imageView = (ImageView) itemView.findViewById(R.id.element_image);
             titleText = (TextView) itemView.findViewById(R.id.list_row_title);
-            descriptionText = (TextView) itemView.findViewById(R.id.list_row_description);
+            //descriptionText = (TextView) itemView.findViewById(R.id.list_row_description);
         }
     }
 
@@ -48,7 +48,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                                                      int viewType) {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_main_list_row, parent, false);
+                /* In case of list view change to fragment_main_list_row.xml */
+                //.inflate(R.layout.fragment_main_list_row, parent, false);
+                .inflate(R.layout.fragment_main_grid_element, parent, false);
 
         return new ViewHolder(view);
     }
@@ -62,7 +64,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         setImage(rowsList.get(position).getUrl(),holder.imageView);
         holder.titleText.setText(rowsList.get(position).getTitle());
-        holder.descriptionText.setText(rowsList.get(position).getDesc());
+       // holder.descriptionText.setText(rowsList.get(position).getDesc());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -79,8 +81,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private void setImage(String url, ImageView imageView){
         Glide.with(context)
                 .load(url)
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.no_image_available_gray)
+                .error(R.drawable.no_image_available_gray)
+                .centerCrop()
                 .into(imageView);
     }
 }

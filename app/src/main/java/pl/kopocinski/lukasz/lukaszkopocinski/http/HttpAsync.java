@@ -13,9 +13,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Created by Łukasz on 2016-01-05.
- */
 public class HttpAsync {
     private static final String CLASS_NAME = HttpAsync.class.getSimpleName();
 
@@ -42,7 +39,7 @@ public class HttpAsync {
                     .url(url)
                     .build();
 
-            Response response = null;
+            Response response;
             try {
                 response = httpClient.newCall(request).execute();
                 if (response.code() == HttpURLConnection.HTTP_OK || response.code() == HttpURLConnection.HTTP_CREATED) {

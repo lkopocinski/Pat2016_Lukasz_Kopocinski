@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:text="@string/button_login"
         android:background="@color/colorPrimary"
-        android:layout_marginTop="40dp"
-        android:textColor="@android:color/white"/>
+        android:layout_marginTop="@dimen/input_text_margin_top"
+        android:textColor="@color/buttonTextColor"/>
 
 </LinearLayout>

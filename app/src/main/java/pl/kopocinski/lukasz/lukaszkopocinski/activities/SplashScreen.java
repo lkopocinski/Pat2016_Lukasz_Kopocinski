@@ -7,11 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
 import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
 
-/**
- * Created by Łukasz on 2015-12-28.
- */
+
 public class SplashScreen extends AppCompatActivity {
     public static final int SPLASH_DURATION_TIME = 5000;
+
     private static final String IS_USER_LOGGED_IN_KEY = "isUserLogged";
     public static final boolean USER_LOGGED_IN = true;
     public static final boolean USER_LOGGED_OUT = false;

@@ -1,8 +1,5 @@
 package pl.kopocinski.lukasz.lukaszkopocinski.json.models;
 
-/**
- * Created by Łukasz on 2016-01-04.
- */
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -7,9 +7,7 @@ import com.google.gson.JsonSyntaxException;
 
 import pl.kopocinski.lukasz.lukaszkopocinski.json.models.JsonServerArray;
 
-/**
- * Created by Łukasz on 2016-01-04.
- */
+
 public class JsonSerializer {
     private static final String CLASS_NAME = JsonSerializer.class.getSimpleName();
 

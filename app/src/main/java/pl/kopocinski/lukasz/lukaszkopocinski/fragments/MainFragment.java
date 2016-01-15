@@ -2,6 +2,7 @@ package pl.kopocinski.lukasz.lukaszkopocinski.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -53,7 +54,7 @@ public class MainFragment extends Fragment implements onHttpResponse {
         ButterKnife.bind(this, view);
 
         if (!Utils.isNetworkAvailable(getContext())) {
-            Toast.makeText(getContext(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
+            showNoInternetToast();
             return view;
         }
 
@@ -64,17 +65,32 @@ public class MainFragment extends Fragment implements onHttpResponse {
 
     private void initRecyclerView(View view) {
         setUpRecyclerView(view);
-        initRecyclerViewData();
+        setRecyclerViewData();
     }
 
     private void setUpRecyclerView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.main_fragment_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+
+        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        int width = getResources().getConfiguration().screenWidthDp;
+        int height = getResources().getConfiguration().screenHeightDp;
+        String dupaString = getResources().getString(R.string.dupa);
+        if (tabletSize) {
+            int COLUMN_QUANTITY_TABLET = 4;
+            mLayoutManager = new GridLayoutManager(getActivity(), COLUMN_QUANTITY_TABLET);
+        } else {
+            int COLUMN_QUANTITY_PHONE = 2;
+            /* In case of grid view */
+            mLayoutManager = new GridLayoutManager(getActivity(), COLUMN_QUANTITY_PHONE);
+            /* In case of list view, change also layout file in ListAdapter */
+            //mLayoutManager = new LinearLayoutManager(getActivity());
+        }
+
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
-    private void initRecyclerViewData() {
+    private void setRecyclerViewData() {
         downloadData();
     }
 
@@ -86,8 +102,7 @@ public class MainFragment extends Fragment implements onHttpResponse {
 
     @Override
     public void onHttpResponseSuccess(String response) {
-        JsonSerializer jsonSerializer = new JsonSerializer();
-        JsonServerArray jsonServerArray = jsonSerializer.deserialize(response);
+        JsonServerArray jsonServerArray = serializeResponse(response);
 
         if (jsonServerArray == null) {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
@@ -95,9 +110,18 @@ public class MainFragment extends Fragment implements onHttpResponse {
             return;
         }
 
+        setAdapter(jsonServerArray);
+        progressBar.setVisibility(ProgressBar.GONE);
+    }
+
+    public JsonServerArray serializeResponse(String response){
+        JsonSerializer jsonSerializer = new JsonSerializer();
+        return jsonSerializer.deserialize(response);
+    }
+
+    public void setAdapter(JsonServerArray jsonServerArray){
         mAdapter = new ListAdapter(jsonServerArray.getArray(), getContext());
         mRecyclerView.setAdapter(mAdapter);
-        progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
     @Override
@@ -136,5 +160,9 @@ public class MainFragment extends Fragment implements onHttpResponse {
 
     private void loadLoginFragment() {
         Utils.fragmentTransactionSetup(LoginFragment.newInstance(), getFragmentManager(), LoginFragment.class.getName());
+    }
+
+    public void showNoInternetToast(){
+        Toast.makeText(getContext(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
     }
 }

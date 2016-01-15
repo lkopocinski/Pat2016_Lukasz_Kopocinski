@@ -1,5 +1,6 @@
 package pl.kopocinski.lukasz.lukaszkopocinski.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -62,6 +64,7 @@ public class LoginFragment extends Fragment {
     public void onButtonLoginClicked() {
         if (validateData()) {
             saveUserLoggedIn();
+            hideKeyboard(getView());
             loadMainFragment();
         }
     }
@@ -146,5 +149,10 @@ public class LoginFragment extends Fragment {
     private void loadMainFragment() {
         Utils.fragmentTransactionSetup(MainFragment.newInstance(), getFragmentManager(),
                 MainFragment.class.getName());
+    }
+
+    public void hideKeyboard(View view){
+        InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
