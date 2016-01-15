@@ -66,5 +66,6 @@ public class SplashScreen extends AppCompatActivity {
     private void startMainActivity(boolean isLoggedIn) {
         Intent intent = new Intent(SplashScreen.this, MainActivity.class);
         intent.putExtra(IS_USER_LOGGED_IN_KEY, isLoggedIn);
-	}
+        startActivity(intent);
+    }
 }
