@@ -3,7 +3,6 @@ package pl.kopocinski.lukasz.lukaszkopocinski.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +26,7 @@ import pl.kopocinski.lukasz.lukaszkopocinski.recycler.ListAdapter;
 
 public class MainFragment extends Fragment implements onHttpResponse {
     final static String BASE_SERVER_URL = "http://192.168.1.137:8080";
+    //final static String BASE_SERVER_URL = "http://10.0.2.2:8080";
     final static String JSON_PAGE_0 = "/page_0.json";
 
     // Recycler View
@@ -73,9 +73,6 @@ public class MainFragment extends Fragment implements onHttpResponse {
         mRecyclerView.setHasFixedSize(true);
 
         boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        int width = getResources().getConfiguration().screenWidthDp;
-        int height = getResources().getConfiguration().screenHeightDp;
-        String dupaString = getResources().getString(R.string.dupa);
         if (tabletSize) {
             int COLUMN_QUANTITY_TABLET = 4;
             mLayoutManager = new GridLayoutManager(getActivity(), COLUMN_QUANTITY_TABLET);
@@ -114,12 +111,12 @@ public class MainFragment extends Fragment implements onHttpResponse {
         progressBar.setVisibility(ProgressBar.GONE);
     }
 
-    public JsonServerArray serializeResponse(String response){
+    public JsonServerArray serializeResponse(String response) {
         JsonSerializer jsonSerializer = new JsonSerializer();
         return jsonSerializer.deserialize(response);
     }
 
-    public void setAdapter(JsonServerArray jsonServerArray){
+    public void setAdapter(JsonServerArray jsonServerArray) {
         mAdapter = new ListAdapter(jsonServerArray.getArray(), getContext());
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -162,7 +159,7 @@ public class MainFragment extends Fragment implements onHttpResponse {
         Utils.fragmentTransactionSetup(LoginFragment.newInstance(), getFragmentManager(), LoginFragment.class.getName());
     }
 
-    public void showNoInternetToast(){
+    public void showNoInternetToast() {
         Toast.makeText(getContext(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
     }
 }

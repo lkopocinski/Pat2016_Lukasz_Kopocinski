@@ -3,12 +3,13 @@ package pl.kopocinski.lukasz.lukaszkopocinski.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
 import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
 
-
 public class SplashScreen extends AppCompatActivity {
+    private static final String CLASS_NAME = SplashScreen.class.getSimpleName();
     public static final int SPLASH_DURATION_TIME = 5000;
 
     private static final String IS_USER_LOGGED_IN_KEY = "isUserLogged";
@@ -34,7 +35,7 @@ public class SplashScreen extends AppCompatActivity {
 
                         startMainActivity(USER_LOGGED_OUT);
                     } catch (InterruptedException e) {
-                        //return;
+                        Log.i(CLASS_NAME, "Thread interrupted");
                     }
                 }
             };
@@ -56,6 +57,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onPause();
         finish();
     }
+
 
     private boolean isUserLoggedIn() {
         return UserPreferences.getInstance(getApplicationContext()).isUserLoggedIn();

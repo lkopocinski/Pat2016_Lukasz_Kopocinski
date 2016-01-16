@@ -7,15 +7,34 @@
     <!-- Dimensions splash screen -->
     <dimen name="splash_picture_margin">16dp</dimen>
 
-    !-- Dimensions login fragment -->
+    <!-- Dimensions login fragment -->
     <dimen name="input_text_margin">20dp</dimen>
     <dimen name="input_text_margin_top">40dp</dimen>
+    <dimen name="eye_margin_left">4dp</dimen>
+
+    <!-- Dimensions list_row -->
     <dimen name="list_row_image_width">40dp</dimen>
     <dimen name="list_row_image_height">40dp</dimen>
     <dimen name="list_row_image_margin_left">16dp</dimen>
     <dimen name="list_row_title_margin_left">72dp</dimen>
     <dimen name="list_row_height">72dp</dimen>
-    <dimen name="title_font_size">20sp</dimen>
+    <dimen name="title_font_size">16sp</dimen>
+    <dimen name="title_row_margin_top">16dp</dimen>
+    <dimen name="description_font_size_list">14sp</dimen>
+
+
+
+    <!-- Dimensions grid_element -->
+    <dimen name="grid_element_margin_left">2dp</dimen>
+    <dimen name="grid_element_margin_right">2dp</dimen>
+    <dimen name="fragment_main_grid_margin_top">4dp</dimen>
+    <dimen name="grid_element_height">192dp</dimen>
+    <dimen name="grid_element_padding">2dp</dimen>
+    <dimen name="grid_element_text_height">68dp</dimen>
+    <dimen name="grid_element_title_margin_left">16dp</dimen>
+    <dimen name="grid_element_title_margin_right">16dp</dimen>
+    <dimen name="description_font_size_grid">14sp</dimen>
+
 
 
 </resources>

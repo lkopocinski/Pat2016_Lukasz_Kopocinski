@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="@dimen/list_row_height">
 
-    <RelativeLayout
-        android:id="@+id/row_layout"
+    <ImageView
+        android:id="@+id/element_image"
+        android:layout_width="@dimen/list_row_image_width"
+        android:layout_height="@dimen/list_row_image_height"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/list_row_image_margin_left" />
+
+
+    <TextView
+        android:id="@+id/list_row_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/list_row_height">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_row_title_margin_left"
+        android:layout_marginTop="@dimen/title_row_margin_top"
+        android:fontFamily="sans-serif"
+        android:text="Tytuł"
+        android:textColor="@color/primaryTextColorDark"
+        android:textSize="@dimen/title_font_size" />
 
-        <ImageView
-            android:id="@+id/element_image"
-            android:layout_width="@dimen/list_row_image_width"
-            android:layout_height="@dimen/list_row_image_height"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/list_row_image_margin_left" />
+    <TextView
+        android:id="@+id/list_row_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_row_title"
+        android:layout_marginLeft="@dimen/list_row_title_margin_left"
+        android:fontFamily="sans-serif"
+        android:text="Opis"
+        android:textColor="@color/secondaryTextColorDark"
+        android:textSize="@dimen/description_font_size_list" />
 
-        <TextView
-            android:id="@+id/list_row_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/list_row_title_margin_left"
-            android:fontFamily="sans-serif-medium"
-            android:text="Tytuł"
-            android:textSize="@dimen/title_font_size" />
+</RelativeLayout>
 
-    </RelativeLayout>
-
-</LinearLayout>
