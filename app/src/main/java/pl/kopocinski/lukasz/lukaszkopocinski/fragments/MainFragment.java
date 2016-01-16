@@ -34,8 +34,10 @@ public class MainFragment extends Fragment implements onHttpResponse {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
+
 
     public MainFragment() {
     }
@@ -49,6 +51,7 @@ public class MainFragment extends Fragment implements onHttpResponse {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_main_list, container, false);
         ButterKnife.bind(this, view);
@@ -150,6 +153,11 @@ public class MainFragment extends Fragment implements onHttpResponse {
         return super.onOptionsItemSelected(item);
     }
 
+    @OnClick(R.id.button_logout)
+    public void onButtonLogoutClicked() {
+        saveUserLoggedOut();
+        loadLoginFragment();
+    }
 
     private void saveUserLoggedOut() {
         UserPreferences.getInstance(getContext()).saveLoginStatus(UserPreferences.USER_LOGGED_OUT);
