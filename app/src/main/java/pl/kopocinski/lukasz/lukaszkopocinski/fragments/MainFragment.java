@@ -34,10 +34,8 @@ public class MainFragment extends Fragment implements onHttpResponse {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
-
 
     public MainFragment() {
     }
@@ -153,11 +151,6 @@ public class MainFragment extends Fragment implements onHttpResponse {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.button_logout)
-    public void onButtonLogoutClicked() {
-        saveUserLoggedOut();
-        loadLoginFragment();
-    }
 
     private void saveUserLoggedOut() {
         UserPreferences.getInstance(getContext()).saveLoginStatus(UserPreferences.USER_LOGGED_OUT);
