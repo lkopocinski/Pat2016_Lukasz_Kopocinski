@@ -22,5 +22,6 @@
 
     <!-- SharedPreferences -->
     <string name="is_user_logged">isUserLogged</string>
+    <string name="click_twice_to_exit">Click BACK again to exit</string>
 
 </resources>

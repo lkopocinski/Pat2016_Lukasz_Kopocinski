@@ -68,7 +68,6 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-
     @OnClick(R.id.button_login)
     public void onButtonLoginClicked() {
         if (validateData()) {

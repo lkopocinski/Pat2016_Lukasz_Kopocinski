@@ -1,5 +1,7 @@
 package pl.kopocinski.lukasz.lukaszkopocinski.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +18,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    public static void start(Context context, boolean isLoggedIn){
+        final Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(IS_USER_LOGGED_IN_KEY, isLoggedIn);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
