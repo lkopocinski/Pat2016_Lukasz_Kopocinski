@@ -5,6 +5,7 @@
     android:layout_marginLeft="@dimen/grid_element_margin_left"
     android:layout_marginStart="@dimen/grid_element_margin_left"
     android:layout_marginRight="@dimen/grid_element_margin_right"
+    android:layout_marginEnd="2dp"
     android:layout_marginTop="@dimen/fragment_main_grid_margin_top"
     android:orientation="vertical">
 

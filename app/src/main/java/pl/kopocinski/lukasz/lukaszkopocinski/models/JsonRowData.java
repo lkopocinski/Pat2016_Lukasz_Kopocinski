@@ -1,4 +1,4 @@
-package pl.kopocinski.lukasz.lukaszkopocinski.json.models;
+package pl.kopocinski.lukasz.lukaszkopocinski.models;
 
 
 import com.google.gson.annotations.Expose;

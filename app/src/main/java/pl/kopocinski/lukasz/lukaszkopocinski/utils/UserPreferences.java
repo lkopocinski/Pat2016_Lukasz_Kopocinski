@@ -1,7 +1,9 @@
-package pl.kopocinski.lukasz.lukaszkopocinski;
+package pl.kopocinski.lukasz.lukaszkopocinski.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import pl.kopocinski.lukasz.lukaszkopocinski.R;
 
 public class UserPreferences {
     private static final String PREFERENCE_FILE_KEY = "pl.kopocinski.lukasz.lukaszkopocinski.USER_PREFERENCES";

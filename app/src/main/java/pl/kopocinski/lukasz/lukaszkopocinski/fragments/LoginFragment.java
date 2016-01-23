@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
-import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
-import pl.kopocinski.lukasz.lukaszkopocinski.Utils;
+import pl.kopocinski.lukasz.lukaszkopocinski.utils.UserPreferences;
+import pl.kopocinski.lukasz.lukaszkopocinski.utils.Utils;
 
 
 public class LoginFragment extends Fragment {

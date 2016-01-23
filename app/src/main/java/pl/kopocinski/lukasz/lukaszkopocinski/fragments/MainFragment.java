@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,26 +14,40 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.net.HttpURLConnection;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
-import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
-import pl.kopocinski.lukasz.lukaszkopocinski.Utils;
-import pl.kopocinski.lukasz.lukaszkopocinski.http.HttpAsync;
-import pl.kopocinski.lukasz.lukaszkopocinski.http.onHttpResponse;
-import pl.kopocinski.lukasz.lukaszkopocinski.json.JsonSerializer;
-import pl.kopocinski.lukasz.lukaszkopocinski.json.models.JsonServerArray;
-import pl.kopocinski.lukasz.lukaszkopocinski.recycler.ListAdapter;
+import pl.kopocinski.lukasz.lukaszkopocinski.models.JsonServerArray;
+import pl.kopocinski.lukasz.lukaszkopocinski.recycler.Adapter;
+import pl.kopocinski.lukasz.lukaszkopocinski.recycler.EndlessRecyclerScrollListener;
+import pl.kopocinski.lukasz.lukaszkopocinski.retrofit.ServerCall;
+import pl.kopocinski.lukasz.lukaszkopocinski.utils.UserPreferences;
+import pl.kopocinski.lukasz.lukaszkopocinski.utils.Utils;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
 
-public class MainFragment extends Fragment implements onHttpResponse {
+public class MainFragment extends Fragment {
+    private static final String CLASS_NAME = MainFragment.class.getSimpleName();
+
     final static String BASE_SERVER_URL = "http://192.168.1.137:8080";
     //final static String BASE_SERVER_URL = "http://10.0.2.2:8080";
-    final static String JSON_PAGE_0 = "/page_0.json";
 
-    // Recycler View
+    private final static int FIRST_PAGE = 0;
+    private static boolean lastPage = false;
+
+    /* Recycler View */
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private Adapter mAdapter;
+    //private LinearLayoutManager mLayoutManager;
+    private GridLayoutManager mLayoutManager;
+
+    /* Retrofit interface */
+    private ServerCall serverCall;
 
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
@@ -50,83 +65,136 @@ public class MainFragment extends Fragment implements onHttpResponse {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_main_list, container, false);
+        setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
-
-        if (!Utils.isNetworkAvailable(getContext())) {
-            showNoInternetToast();
-            return view;
-        }
-
-        initRecyclerView(view);
+        setUpRecyclerView(view);
 
         return view;
     }
 
-    private void initRecyclerView(View view) {
-        setUpRecyclerView(view);
-        setRecyclerViewData();
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (!Utils.isNetworkAvailable(getContext())) {
+            showNoInternetToast();
+            return;
+        }
+
+        lastPage = false;
+        initRetrofit();
+        downloadData();
+    }
+
+    private void initRetrofit() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(BASE_SERVER_URL)
+                .build();
+
+        serverCall = retrofit.create(ServerCall.class);
     }
 
     private void setUpRecyclerView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.main_fragment_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
 
-        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            int COLUMN_QUANTITY_TABLET = 4;
-            mLayoutManager = new GridLayoutManager(getActivity(), COLUMN_QUANTITY_TABLET);
-        } else {
-            int COLUMN_QUANTITY_PHONE = 2;
-            /* In case of grid view */
-            mLayoutManager = new GridLayoutManager(getActivity(), COLUMN_QUANTITY_PHONE);
-            /* In case of list view, change also layout file in ListAdapter */
-            //mLayoutManager = new LinearLayoutManager(getActivity());
-        }
+        gridView();
+        //listView();
 
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addOnScrollListener(new EndlessRecyclerScrollListener(mLayoutManager) {
+            @Override
+            public void loadMore(int page, int totalItemsCount) {
+                downloadNextData(page);
+            }
+        });
     }
 
-    private void setRecyclerViewData() {
-        downloadData();
+    private void gridView() {
+        if (isTablet()) {
+            int COLUMN_QUANTITY_TABLET = 4;
+            setUpGridLayout(COLUMN_QUANTITY_TABLET);
+        } else {
+            int COLUMN_QUANTITY_PHONE = 2;
+            setUpGridLayout(COLUMN_QUANTITY_PHONE);
+        }
+    }
+
+    private void listView() {
+        //mLayoutManager = new LinearLayoutManager(getActivity());
+    }
+
+    private void setUpGridLayout(final int columnQuantity) {
+        final int ONE_PLACE = 1;
+        mLayoutManager = new GridLayoutManager(getActivity(), columnQuantity);
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return (position >= mAdapter.getItemCount() - 1) ? columnQuantity : ONE_PLACE;
+            }
+        });
     }
 
     private void downloadData() {
-        progressBar.setVisibility(ProgressBar.VISIBLE);
-        HttpAsync httpAsync = new HttpAsync();
-        httpAsync.download(BASE_SERVER_URL + JSON_PAGE_0, this);
+        progressBar.setVisibility(View.VISIBLE);
+        Call<JsonServerArray> getServerArray = serverCall.getServerArray(FIRST_PAGE);
+        getServerArray.enqueue(firstPageCall);
     }
 
-    @Override
-    public void onHttpResponseSuccess(String response) {
-        JsonServerArray jsonServerArray = serializeResponse(response);
+    private void downloadNextData(int pageNumber) {
+        if (!lastPage) {
+            Call<JsonServerArray> getServerArray = serverCall.getServerArray(pageNumber);
+            getServerArray.enqueue(nextPageCall);
+        }
+    }
 
-        if (jsonServerArray == null) {
-            progressBar.setVisibility(ProgressBar.INVISIBLE);
-            Toast.makeText(getActivity(), R.string.json_parse_error, Toast.LENGTH_LONG).show();
-            return;
+    private Callback<JsonServerArray> firstPageCall = new Callback<JsonServerArray>() {
+        @Override
+        public void onResponse(Response<JsonServerArray> response, Retrofit retrofit) {
+            mAdapter = new Adapter(response.body().getArray(), getContext());
+            mRecyclerView.setAdapter(mAdapter);
+            progressBar.setVisibility(View.GONE);
         }
 
-        setAdapter(jsonServerArray);
-        progressBar.setVisibility(ProgressBar.GONE);
-    }
+        @Override
+        public void onFailure(Throwable t) {
+            Log.e(CLASS_NAME, t.getMessage());
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), R.string.json_parse_error, Toast.LENGTH_LONG).show();
+        }
+    };
 
-    public JsonServerArray serializeResponse(String response) {
-        JsonSerializer jsonSerializer = new JsonSerializer();
-        return jsonSerializer.deserialize(response);
-    }
+    private Callback<JsonServerArray> nextPageCall = new Callback<JsonServerArray>() {
+        @Override
+        public void onResponse(Response<JsonServerArray> response, Retrofit retrofit) {
+            final int currentSize = mAdapter.getItemCount();
 
-    public void setAdapter(JsonServerArray jsonServerArray) {
-        mAdapter = new ListAdapter(jsonServerArray.getArray(), getContext());
-        mRecyclerView.setAdapter(mAdapter);
-    }
+            if (response.isSuccess()) {
+                final JsonServerArray responseBody = response.body();
+                mAdapter.addAll(responseBody);
 
-    @Override
-    public void onHttpResponseError(String errorMessage) {
-        progressBar.setVisibility(ProgressBar.INVISIBLE);
-        Toast.makeText(getActivity(), R.string.server_error, Toast.LENGTH_LONG).show();
-    }
+                /* PostDelayed only for mock-up */
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.notifyItemRangeInserted(currentSize, responseBody.getArray().size() - 1);
+                    }
+                }, 1000);
+            }
+
+            if (response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
+                lastPage = true;
+                mAdapter.setNoMoreData(true);
+            }
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            Log.e(CLASS_NAME, t.getMessage());
+        }
+    };
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -151,7 +219,6 @@ public class MainFragment extends Fragment implements onHttpResponse {
         return super.onOptionsItemSelected(item);
     }
 
-
     private void saveUserLoggedOut() {
         UserPreferences.getInstance(getContext()).saveLoginStatus(UserPreferences.USER_LOGGED_OUT);
     }
@@ -162,5 +229,9 @@ public class MainFragment extends Fragment implements onHttpResponse {
 
     public void showNoInternetToast() {
         Toast.makeText(getContext(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
+    }
+
+    public boolean isTablet() {
+        return getResources().getBoolean(R.bool.isTablet);
     }
 }

@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import pl.kopocinski.lukasz.lukaszkopocinski.R;
-import pl.kopocinski.lukasz.lukaszkopocinski.UserPreferences;
+import pl.kopocinski.lukasz.lukaszkopocinski.utils.UserPreferences;
 
 public class SplashScreen extends AppCompatActivity {
     private static final String CLASS_NAME = SplashScreen.class.getSimpleName();
