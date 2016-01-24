@@ -187,6 +187,7 @@ public class MainFragment extends Fragment {
             if (response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                 lastPage = true;
                 mAdapter.setNoMoreData(true);
+                mAdapter.notifyItemRangeInserted(currentSize, currentSize);
             }
         }
 
